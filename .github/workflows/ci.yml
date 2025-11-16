@@ -1,0 +1,33 @@
+name: MERN CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # -------- FRONTEND (myapp folder) --------
+      - name: Install Frontend Dependencies
+        working-directory: ./myapp
+        run: npm install
+
+      - name: Build Frontend
+        working-directory: ./myapp
+        run: npm run build
+
+      # -------- BACKEND (backend folder) --------
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Backend Test
+        working-directory: ./backend
+        run: echo "Backend tests will run here"
