@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js (Node 22 to match local)
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -25,7 +25,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 10
+          version: 8
 
       # 4️⃣ Install backend dependencies
       - name: Install backend dependencies
@@ -37,12 +37,12 @@ jobs:
         working-directory: myapp
         run: pnpm install --frozen-lockfile
 
-      # 6️⃣ Lint frontend (fail pipeline on errors)
+      # 6️⃣ Lint frontend
       - name: Lint frontend
         working-directory: myapp
         run: pnpm lint
 
-      # 7️⃣ Lint backend (fail pipeline on errors)
+      # 7️⃣ Lint backend
       - name: Lint backend
         working-directory: backend
         run: pnpm lint
