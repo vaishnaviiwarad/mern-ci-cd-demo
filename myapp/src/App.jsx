@@ -1,7 +1,7 @@
 import React from "react"
 function App() {
 
-  // console.log(a)
+  console.log(a)
   return (
     <>
       <h1>vaignavi</h1>
