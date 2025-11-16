@@ -11,6 +11,7 @@ export default defineConfig([
       sourceType: "script", // CommonJS in Node
       globals: {
         ...globals.node,
+        ...globals.jest,
       },
     },
     rules: {

@@ -3,7 +3,7 @@ function App() {
 
   return (
     <>
-      <h1>vaignavi</h1>
+      <h1>vaishnavi</h1>
     </>
   )
 }
