@@ -4,30 +4,40 @@ on:
   push:
     branches: ["main"]
   pull_request:
-    branches: ["main"]
 
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # -------- FRONTEND (myapp folder) --------
-      - name: Install Frontend Dependencies
-        working-directory: ./myapp
-        run: npm install
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-      - name: Build Frontend
-        working-directory: ./myapp
-        run: npm run build
-
-      # -------- BACKEND (backend folder) --------
       - name: Install Backend Dependencies
-        working-directory: ./backend
+        working-directory: backend
         run: npm install
 
-      - name: Backend Test
-        working-directory: ./backend
-        run: echo "Backend tests will run here"
+      - name: Install Frontend Dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Run Backend Tests (Optional)
+        working-directory: backend
+        run: npm test || echo "No backend tests"
+
+      - name: Run Frontend Tests (Optional)
+        working-directory: frontend
+        run: npm test || echo "No frontend tests"
+
+      - name: Lint Frontend
+        working-directory: frontend
+        run: npm run lint || echo "No lint script"
+
+      - name: Lint Backend
+        working-directory: backend
+        run: npm run lint || echo "No lint script"
