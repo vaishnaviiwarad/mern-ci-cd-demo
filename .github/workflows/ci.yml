@@ -21,41 +21,43 @@ jobs:
           node-version: 18
           cache: "pnpm"
 
-      # 3️⃣ Install pnpm globally
-      - name: Install PNPM
-        run: npm install -g pnpm
+      # 3️⃣ Setup pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-      # 4️⃣ Install Backend Dependencies
-      - name: Install Backend Dependencies
+      # 4️⃣ Install backend dependencies
+      - name: Install backend Dependencies
         working-directory: backend
         run: pnpm install --frozen-lockfile
 
-      # 5️⃣ Install Frontend Dependencies
-      - name: Install Frontend Dependencies
+      # 5️⃣ Install frontend dependencies
+      - name: Install frontend Dependencies
         working-directory: myapp
         run: pnpm install --frozen-lockfile
 
-      # 6️⃣ Lint Frontend
-      - name: Lint Frontend
+      # 6️⃣ Lint frontend
+      - name: Lint frontend
         working-directory: myapp
         run: pnpm lint
 
-      # 7️⃣ Lint Backend
-      - name: Lint Backend
+      # 7️⃣ Lint backend
+      - name: Lint backend
         working-directory: backend
         run: pnpm lint
 
-      # 8️⃣ Run Backend Tests (Optional, won’t hide lint/runtime errors)
-      - name: Run Backend Tests
+      # 8️⃣ Run backend tests (optional)
+      - name: Run backend Tests
         working-directory: backend
         run: pnpm test || echo "No backend tests"
 
-      # 9️⃣ Run Frontend Tests (Optional)
-      - name: Run Frontend Tests
+      # 9️⃣ Run frontend tests (optional)
+      - name: Run frontend Tests
         working-directory: myapp
         run: pnpm test || echo "No frontend tests"
 
-      # 🔟 Run Backend to catch runtime errors
-      - name: Run Backend
+      # 🔟 Run backend to catch runtime errors
+      - name: Run backend
         working-directory: backend
         run: node index.js
