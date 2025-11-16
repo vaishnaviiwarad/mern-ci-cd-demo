@@ -10,37 +10,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # Install PNPM globally
       - name: Install PNPM
         run: npm install -g pnpm
 
+      # Install Backend Dependencies
       - name: Install Backend Dependencies
         working-directory: backend
         run: pnpm install --frozen-lockfile
 
+      # Install Frontend Dependencies
       - name: Install Frontend Dependencies
         working-directory: myapp
         run: pnpm install --frozen-lockfile
 
-      - name: Run Backend Tests (Optional)
+      # Run Backend Tests (Optional)
+      - name: Run Backend Tests
         working-directory: backend
-        run: pnpm test || echo "No backend tests"
+        run: pnpm test
 
-      - name: Run Frontend Tests (Optional)
+      # Run Frontend Tests (Optional)
+      - name: Run Frontend Tests
         working-directory: myapp
-        run: pnpm test || echo "No frontend tests"
+        run: pnpm test
 
+      # Lint Frontend
       - name: Lint Frontend
         working-directory: myapp
-        run: pnpm lint || echo "No lint script"
+        run: pnpm lint
 
+      # Lint Backend
       - name: Lint Backend
         working-directory: backend
-        run: pnpm lint || echo "No lint script"
+        run: pnpm lint
+
+      # Run Backend to catch runtime errors
+      - name: Run Backend
+        working-directory: backend
+        run: node index.js
