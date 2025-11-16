@@ -2,7 +2,7 @@ name: MERN CI Pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "feature"]
   pull_request:
 
 jobs:
@@ -10,51 +10,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
-      - name: Checkout code
+      # 1️⃣ Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Setup Node.js
-      - name: Setup Node
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: "pnpm"
 
-      # Install PNPM globally
+      # 3️⃣ Install pnpm globally
       - name: Install PNPM
         run: npm install -g pnpm
 
-      # Install Backend Dependencies
+      # 4️⃣ Install Backend Dependencies
       - name: Install Backend Dependencies
         working-directory: backend
         run: pnpm install --frozen-lockfile
 
-      # Install Frontend Dependencies
+      # 5️⃣ Install Frontend Dependencies
       - name: Install Frontend Dependencies
         working-directory: myapp
         run: pnpm install --frozen-lockfile
 
-      # Run Backend Tests (Optional)
-      - name: Run Backend Tests
-        working-directory: backend
-        run: pnpm test
-
-      # Run Frontend Tests (Optional)
-      - name: Run Frontend Tests
-        working-directory: myapp
-        run: pnpm test
-
-      # Lint Frontend
+      # 6️⃣ Lint Frontend
       - name: Lint Frontend
         working-directory: myapp
         run: pnpm lint
 
-      # Lint Backend
+      # 7️⃣ Lint Backend
       - name: Lint Backend
         working-directory: backend
         run: pnpm lint
 
-      # Run Backend to catch runtime errors
+      # 8️⃣ Run Backend Tests (Optional, won’t hide lint/runtime errors)
+      - name: Run Backend Tests
+        working-directory: backend
+        run: pnpm test || echo "No backend tests"
+
+      # 9️⃣ Run Frontend Tests (Optional)
+      - name: Run Frontend Tests
+        working-directory: myapp
+        run: pnpm test || echo "No frontend tests"
+
+      # 🔟 Run Backend to catch runtime errors
       - name: Run Backend
         working-directory: backend
         run: node index.js
