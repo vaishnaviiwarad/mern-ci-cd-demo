@@ -47,7 +47,7 @@ jobs:
 
     steps:
       # 1️⃣ Checkout code
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       # 2️⃣ Setup Node.js
@@ -55,13 +55,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: "pnpm"
 
       # 3️⃣ Setup pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 10
+
+      # 4️⃣ Verify pnpm
+      - name: Verify pnpm
+        run: pnpm -v
 
       # -------- FRONTEND (myapp) --------
       - name: Install Frontend Dependencies
@@ -70,7 +73,7 @@ jobs:
 
       - name: Lint Frontend
         working-directory: ./myapp
-        run: pnpm lint
+        run: pnpm lint || exit 1
 
       - name: Build Frontend
         working-directory: ./myapp
@@ -83,7 +86,7 @@ jobs:
 
       - name: Lint Backend
         working-directory: ./backend
-        run: pnpm lint
+        run: pnpm lint || exit 1
 
       - name: Run Backend Tests (optional)
         working-directory: ./backend
