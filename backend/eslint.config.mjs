@@ -8,7 +8,7 @@ export default defineConfig([
     ignores: ["node_modules/"],
     languageOptions: {
       ecmaVersion: "latest",
-      sourceType: "script", // CommonJS in Node
+      sourceType: "script", // Commonjs
       globals: {
         ...globals.node,
         ...globals.jest,

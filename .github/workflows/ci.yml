@@ -11,27 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 22
 
-      # 3️⃣ Setup pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 10
 
-      # 4️⃣ Verify pnpm
       - name: Verify pnpm
         run: pnpm -v
 
-      # -------- FRONTEND (myapp) --------
       - name: Install Frontend Dependencies
         working-directory: ./myapp
         run: pnpm install --frozen-lockfile
@@ -44,7 +39,6 @@ jobs:
         working-directory: ./myapp
         run: pnpm run build
 
-      # -------- BACKEND (backend) --------
       - name: Install Backend Dependencies
         working-directory: ./backend
         run: pnpm install --frozen-lockfile
